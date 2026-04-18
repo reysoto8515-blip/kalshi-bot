@@ -1,0 +1,32 @@
+kalshi:
+  environment: demo
+  base_url: https://demo-api.kalshi.co
+  email: ""
+  password: ""
+  api_key: ""
+
+sports:
+  nba: true
+  nfl: true
+  mlb: true
+  mma: true
+  esports: true
+  soccer: true
+
+model:
+  min_samples: 100
+  random_state: 42
+
+risk:
+  bankroll: 1000.0
+  fractional_kelly: 0.25
+  max_bankroll_per_trade: 0.02
+  daily_loss_limit: 0.05
+  max_concurrent_positions: 10
+  max_exposure_per_sport: 0.2
+  min_edge: 0.02
+
+trading:
+  paper: true
+  retry_attempts: 3
+  retry_delay_seconds: 1
