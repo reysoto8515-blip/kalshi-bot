@@ -19,6 +19,9 @@ class BacktestResult:
 
 
 class BaseSportModel:
+    MIN_PROBABILITY = 0.01
+    MAX_PROBABILITY = 0.99
+
     def __init__(self, name: str, random_state: int = 42) -> None:
         self.name = name
         self.pipeline = build_binary_pipeline(random_state=random_state)
@@ -33,9 +36,9 @@ class BaseSportModel:
     def predict_probability(self, features: Iterable[float]) -> float:
         values = np.array([list(features)], dtype=float)
         if not self._trained:
-            return 0.5
+            raise RuntimeError("Model must be trained before prediction")
         probability = self.pipeline.predict_proba(values)[0, 1]
-        return float(np.clip(probability, 0.01, 0.99))
+        return float(np.clip(probability, self.MIN_PROBABILITY, self.MAX_PROBABILITY))
 
     def backtest(self, X: np.ndarray, y: np.ndarray) -> BacktestResult:
         if not self._trained:

@@ -97,7 +97,12 @@ def cmd_trade(args) -> int:
             continue
 
         size = risk.position_size(opp.model_probability, opp.market_price_cents)
-        contracts = max(1, int(size // (opp.market_price_cents / 100.0)))
+        contract_price = opp.market_price_cents / 100.0
+        if size < contract_price:
+            continue
+        contracts = int(size // contract_price)
+        if contracts <= 0:
+            continue
         result = executor.execute([opp], contract_count=contracts)[0]
         opened += 1
 

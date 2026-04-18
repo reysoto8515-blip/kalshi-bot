@@ -53,7 +53,8 @@ class PerformanceTracker:
         target = Path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
         with target.open("w", encoding="utf-8", newline="") as fp:
-            writer = csv.DictWriter(fp, fieldnames=list(asdict(TradeRecord("", "", "", "", 0, 0, 0.0)).keys()))
+            fieldnames = ["timestamp", "sport", "market_id", "side", "contracts", "price_cents", "pnl"]
+            writer = csv.DictWriter(fp, fieldnames=fieldnames)
             writer.writeheader()
             for trade in self.trades:
                 writer.writerow(asdict(trade))

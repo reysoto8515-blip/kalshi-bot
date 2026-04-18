@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import hashlib
 import json
 import time
 from typing import Any
@@ -16,8 +17,8 @@ class DataCache:
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def _path_for(self, key: str) -> Path:
-        safe_key = key.replace("/", "_").replace(" ", "_")
-        return self.cache_dir / f"{safe_key}.json"
+        digest = hashlib.sha256(key.encode("utf-8")).hexdigest()
+        return self.cache_dir / f"{digest}.json"
 
     def get(self, key: str) -> Any | None:
         path = self._path_for(key)
